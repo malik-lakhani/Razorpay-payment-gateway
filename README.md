@@ -19,7 +19,7 @@ This project is used to showcase Razorpay payment gateway integration.
 Clone project
 
 ```
-git clone git@gitlab.com:RepairRabbit/download.git
+git clone ssh://git@192.168.1.5:2222/malik_lakhani/Razorpay-payment-gateway.git
 ```
 Install all dependencies
 
