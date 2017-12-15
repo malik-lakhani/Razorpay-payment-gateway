@@ -1,0 +1,110 @@
+doctype html
+html(lang='en')
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Improwised
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', rel='stylesheet')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Open+Sans:400,700', rel='stylesheet')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  script.
+    function buyNow() {
+      var options = {
+        "key": `#{env.ACCESS_KEY}`,
+        "amount": 1000 * 100, // 2000 paise = INR 20
+        "name": "Improwised",
+        "description": "Buy your dream products",
+        "image": "https://www.improwised.com/img/logo.png",
+        "handler": function (response) {
+          $.ajax({
+            type: 'post',
+            url: `/products/2/payments/${response.razorpay_payment_id}/capture`,
+            success: function(success) {
+              alert("payment successully done")
+            },
+            error: function(error) {
+              alert(JSON.parse(error.responseText).msg)
+            }
+          });
+        },
+        "prefill": {
+          "contact": "",
+          "email": ""
+        },
+        "theme": {
+        "color": "#91C371"
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+    }
+  body
+    .container
+      .card
+        .container-fliud
+          .wrapper.row
+            .preview.col-md-6
+              .preview-pic.tab-content
+                #pic-1.tab-pane.active
+                  img(src='http://placekitten.com/200/150')
+                #pic-2.tab-pane
+                  img(src='http://placekitten.com/400/252')
+                #pic-3.tab-pane
+                  img(src='http://placekitten.com/400/252')
+                #pic-4.tab-pane
+                  img(src='http://placekitten.com/400/252')
+                #pic-5.tab-pane
+                  img(src='http://placekitten.com/400/252')
+              ul.preview-thumbnail.nav.nav-tabs
+                li.active
+                  a(data-target='#pic-1', data-toggle='tab')
+                    img(src='http://placekitten.com/200/126')
+                li
+                  a(data-target='#pic-2', data-toggle='tab')
+                    img(src='http://placekitten.com/200/126')
+                li
+                  a(data-target='#pic-3', data-toggle='tab')
+                    img(src='http://placekitten.com/200/126')
+                li
+                  a(data-target='#pic-4', data-toggle='tab')
+                    img(src='http://placekitten.com/200/126')
+                li
+                  a(data-target='#pic-5', data-toggle='tab')
+                    img(src='http://placekitten.com/200/126')
+            form(method='post', action='/product/123')
+              .details.col-md-6
+                h3.product-title men's shoes fashion
+                .rating
+                  .stars
+                    span.fa.fa-star.checked
+                    span.fa.fa-star.checked
+                    span.fa.fa-star.checked
+                    span.fa.fa-star
+                    span.fa.fa-star
+                  span.review-no 41 reviews
+                p.product-description
+                  | Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.
+                h4.price
+                  | current price:
+                  span rs. 1000
+                  input(type='hidden', name='fname', value='180')
+                p.vote
+                  strong 91%
+                  |  of buyers enjoyed this product!
+                  strong (87 votes)
+                h5.sizes
+                  | sizes:
+                  span.size(data-toggle='tooltip', title='small') s
+                  span.size(data-toggle='tooltip', title='medium') m
+                  span.size(data-toggle='tooltip', title='large') l
+                  form(method='post', action='products/123')
+                  span.size(data-toggle='tooltip', title='xtra large') xl
+                h5.colors
+                  | colors:
+                  span.color.orange.not-available(data-toggle='tooltip', title='Not In store')
+                  span.color.green
+                  span.color.blue
+                .action
+                  button.add-to-cart.btn.btn-default(type='button', onclick='buyNow()') Buy NOW
+  script(src='https://checkout.razorpay.com/v1/checkout.js')
+  script(src='https://code.jquery.com/jquery-3.2.1.min.js', integrity='sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=', crossorigin='anonymous')
